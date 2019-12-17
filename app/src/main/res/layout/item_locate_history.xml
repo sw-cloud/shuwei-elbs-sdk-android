@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <View
+        android:id="@+id/divide_line_v"
+        android:layout_width="wrap_content"
+        android:layout_height="1px"
+        android:background="#c2c2c2" />
+
+    <TextView
+        android:id="@+id/point_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/locate_default_point_name"
+        android:textSize="@dimen/text_size_14sp" />
+
+    <TextView
+        android:id="@+id/building_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/point_name_tv"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon_locate_history_building_name"
+        android:drawablePadding="6dp"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/locate_default_building_name"
+        android:textColor="#a8a8a8"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/address_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/building_name_tv"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:drawableLeft="@drawable/icon_locate_history_location"
+        android:drawablePadding="6dp"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/locate_default_address"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/lat_lng_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address_tv"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="4dp"
+        android:drawablePadding="6dp"
+        android:includeFontPadding="false"
+        android:text="@string/locate_lat_lng"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/lat_lng_tv"
+        android:layout_alignParentRight="true"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/locate_default_time"
+        android:textColor="#a8a8a8"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/lat_lng_tv"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@id/time_tv"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/locate_default_date"
+        android:textColor="#a8a8a8"
+        android:textSize="10sp" />
+</RelativeLayout>

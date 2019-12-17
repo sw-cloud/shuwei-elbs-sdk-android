@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shuwei.elbssdk.demo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:keepScreenOn="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CollectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QueryActivity"
+            android:screenOrientation="portrait" />
+
+        <service android:name="com.szshuwei.x.collect.service.SWLocationService" />
+
+        <!-- 配置数位提供的AppId 和 AppKey，AppId 和 AppKey 的位置不要配置反了哟！-->
+        <meta-data
+            android:name="com.shuwei.location.APP_ID"
+            android:value="您申请的APP_ID" />
+        <meta-data
+            android:name="com.shuwei.location.APP_KEY"
+            android:value="您申请的APP_KEY" />
+    </application>
+
+</manifest>

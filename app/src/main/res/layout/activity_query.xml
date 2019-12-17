@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="采集者id:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/collector_id_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="co参数"
+            android:maxLength="255"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前页:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/current_page_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="cp参数"
+            android:inputType="number"
+            android:text="1"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每页条数:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/page_size_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ps参数"
+            android:inputType="number"
+            android:text="10"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="透传参数:"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/pass_through_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="pt参数"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"
+        android:text="查询采集数据"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:background="#ffffff">
+
+            <TextView
+                android:id="@+id/tv_choose_all"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="全选"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="删除" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

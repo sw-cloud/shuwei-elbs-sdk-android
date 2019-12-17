@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">场景识别SDK</string>
+
+    <string name="goto_collect">进入采集页面</string>
+    <string name="goto_location">进入定位页面</string>
+    <string name="goto_collect_history">进入采集查询页面</string>
+
+    <string name="passive_locate">主动定位</string>
+
+    <string name="locate_default_point_name">数位科技</string>
+    <string name="locate_format_point_name">%1$s. %2$s</string>
+    <string name="locate_default_floor">1楼</string>
+    <string name="locate_default_building_name">软件产业基地</string>
+    <string name="locate_format_building_name">%1$s(%2$s)</string>
+    <string name="locate_default_address">深圳南山区</string>
+    <string name="locate_lat_lng">经纬度：</string>
+    <string name="locate_default_date">2018–08–01</string>
+    <string name="locate_default_time">10:00</string>
+    <string name="locate_format_floor">(%1$s楼)</string>
+
+    <string name="poi_name_label">POI名称:</string>
+    <string name="floor_name_label">楼层:</string>
+    <string name="building_label">楼宇名称:</string>
+    <string name="area_label">商圈名称:</string>
+    <string name="address_label">地址:</string>
+    <string name="street_label">街道:</string>
+    <string name="region_label">行政区:</string>
+    <string name="city_label">城市:</string>
+    <string name="province_label">省份:</string>
+    <string name="ext_param_label">自定义扩展字段:</string>
+    <string name="submit_collect_data">提交采集数据</string>
+</resources>
