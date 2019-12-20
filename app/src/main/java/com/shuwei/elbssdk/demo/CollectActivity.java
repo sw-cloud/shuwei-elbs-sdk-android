@@ -60,6 +60,7 @@ public class CollectActivity extends AppCompatActivity implements
 
         mSubmitCollectData.setOnClickListener(this);
 
+        // 注册采集回调监听
         SWLocationClient.getInstance().registerCollectListener(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

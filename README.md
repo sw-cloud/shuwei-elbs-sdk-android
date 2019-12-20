@@ -4,19 +4,27 @@
 
 # 2 获取AppId与AppKey
 
-场景识别Android SDK需要数位授权的AppId、AppKey，开发测试使用的AppId和AppKey由数位提供；每个Key仅且唯一对于1个应用验证有效，即对该Key配置环节中使用的包名匹配的应用有效。
+场景识别Android SDK需要数位授权的AppId、AppKey，每个Key仅且唯一对于1个应用验证有效，即对该Key配置环节中使用的包名匹配的应用有效；
+
+AppId和AppKey的获取方式：
+
+1.注册[数位云](https://cloud.papakaka.com/flash/#/dashboard)账号；
+
+2.创建一个“我的应用”，即可获取；
+
+3.联系数位商务同事激活此应用，即可正常使用。
 
 # 3 开发指南
 
-此文档适配Android SDK V4.0.0+版本。
+此文档适配Android SDK V4.1.0+版本。
 
 ## 3.1 导入库文件
 
-库文件从数位商务同事发送的邮件附件包中获取；
+库文件从数位云“下载”菜单中的“数位场景识别_Android_SDK”链接处获取；
 
 请根据所用IDE选择导入方式：
 
- 
+
 
 Eclipse ADT：
 
@@ -90,7 +98,7 @@ or
 | android.permission.BLUETOOTH              | 允许程序获取蓝牙变化的权限                           |
 | android.permission.BLUETOOTH_ADMIN        | 允许程序获取蓝牙变化的权限                           |
 
-设置AppID，AppKey：
+设置AppId，AppKey：
 
 在Mainfest.xml正确设置AppId和AppKey，如果设置错误将会导致场景识别SDK服务无法正常使用。需在Application标签中加入以下代码，填入开发者自己的AppId和AppKey：
 
@@ -99,7 +107,7 @@ or
   android:name="com.shuwei.location.APP_ID"
   android:value="your app id"/>
 <meta-data
-  android:name=“com.shuwei.location.APP_KEY"
+  android:name="com.shuwei.location.APP_KEY"
   android:value="your app key"/>
 ```
 
@@ -115,6 +123,7 @@ public class MainApplication extends Application{
 ​      SWLocationClient.initialization(this);
    }
 }
+// 如果需要开启开发者日志功能，可以调用：SWLocationClient.initialization(this, true);
 ```
 
 为了保证用户能够顺利的进行数据调试，增加了数据调试模式，通过注册插值器来模拟一段有定位结果的信号，使用方法如下：
@@ -140,7 +149,7 @@ SWLocationClient.getInstance().unregisterWifiInterpolater();
 
 ## 3.5 动态申请权限
 
-对于Android 6.0以上版本，设备的部分权限使用是需要动态进行申请的，场景识别Android SDK涉及的权限有“获取手机基本信息”、“获取WiFi基站等定位权限”：
+对于Android 6.0以上版本，设备的部分权限使用是需要动态进行申请的，场景识别Android SDK涉及的权限有“获取手机基本信息”、“获取WiFi、基站、蓝牙等定位权限”：
 
 获取手机基本信息的权限：
 
@@ -148,7 +157,7 @@ SWLocationClient.getInstance().unregisterWifiInterpolater();
 android.permission.READ_PHONE_STATE
 ```
 
-获取WiFi、基站、蓝牙列表需要用到的权限：
+获取WiFi、基站、蓝牙等定位需要用到的权限：
 
 ```
 android.permission.ACCESS_COARSE_LOCATION
@@ -166,9 +175,47 @@ android.permission.BLUETOOTH // 部分手机蓝牙权限要动态获取
 
 为了保证SDK的正常运行，如果您的APP 使用的SDK版本高于6.0（API >= 23） 请动态申请相关的权限，通常是在APP的启动页面去申请检查。
 
-## 3.6 周期触发的使用
 
-SDK会隔一定周期进行一次场景触发，开发者不需要执行任何触发操作，如果需要得到周期的触发的结果，注册以下接口即可：
+## 3.6 启动Service服务
+
+在需要使用SDK中的任何功能之前，都需要先启动Service服务，启动Service服务必须放在SDK初始化之后。
+建议在onCreate()生命周期中启动Service服务，代码如下：
+
+```java
+SWLocationClient.getInstance().start();
+```
+
+如果需要监听Service服务启动是否成功了，可以注册监听回调接口，代码如下：
+```java
+SWLocationClient.getInstance()
+	.setOnClientStartListener(new SWLocationClient.OnClientStartListener() {
+                    @Override
+                    public void onStartSuccess() {
+                        // 服务启动成功了
+                    }
+
+                    @Override
+                    public void onStartFail() {
+                        // 服务启动失败了
+                    }
+                });
+```
+
+
+## 3.7 停止Service服务
+在不再需要使用SDK中的任何功能之后，可以停止Service服务。
+建议在onDestory()生命周期中停止Service服务，代码如下：
+
+```java
+SWLocationClient.getInstance().stop();
+```
+**如果需要使用周期触发功能，请不要停止Service服务。**
+
+
+## 3.8 周期触发的使用
+
+所谓周期触发，就是SDK每隔一定周期进行一次场景识别触发，开发者不需要执行任何触发操作，如果需要使用周期触发功能，需要先注册周期触发回调接口，然后启动周期触发功能。
+注册周期触发回调接口如下：
 
 ```java
 SWLocationClient.getInstance().registerCycleLocationListener(new CycleLocationListener() {
@@ -183,24 +230,32 @@ SWLocationClient.getInstance().registerCycleLocationListener(new CycleLocationLi
 });
 ```
 
-在不需要结果的时候可以进行注销接口的操作：
+启动周期触发功能如下：
+
+```java
+boolean start = SWLocationClient.getInstance().startCycleSceneRecognizeUI();
+// true 表示启动成功，false 表示启动失败
+```
+
+在不需要周期触发功能的时候可以进行先停止周期触发功能，然后注销回调接口。
+停止周期触发功能如下：
+
+```java
+boolean stop = SWLocationClient.getInstance().stopCycleSceneRecognizeUI();
+// true 表示停止成功，false 表示停止失败
+```
+
+注销周期触发回调接口如下：
 
 ```java
 SWLocationClient.getInstance().unregisterCycleLocationListener();
 ```
 
-允许设置周期场景触发执行的线程：
+## 3.9 主动触发的使用
 
-```java
-SWLocationClient.setIsCycleUI(false);//触发在子线程
-SWLocationClient.setIsCycleUI(true);//触发在主UI线程
-```
+通过主动触发的方式，可以获取到当前位置点的一些位置相关的信息。
 
-## 3.7 主动触发的使用
-
-通过主动申请位置信息的方式，能够获取该位置的一些位置相关的信息。
-
-**这种方式默认是不开通的，如果贵方是需要在C端用户某些行为的时候进行一些埋点操作的话，可以在商务洽谈的时候进行沟通并且申请开通。如果是没开通的情况下，3.6.2中的sceneRecognizeUI ()调用会始终返回一个false，这点请知悉。**
+**这种方式默认是不开通的，如果贵方是需要在C端用户某些行为的时候进行一些埋点操作的话，可以在商务洽谈的时候进行沟通并且申请开通。如果是没开通的情况下，主动触发接口sceneRecognizeUI ()的调用会始终返回一个false，这点请知悉。**
 
 在需要获取定位信息的地方注册对定位结果的监听器：
 
@@ -220,9 +275,7 @@ SWLocationClient.getInstance().registerLocationListener(new LocationListener() {
 主动申请位置信息，通过调用SWLocationClient 的实例方法sceneRecognizeUI能够发起一次主动调用。为了防止重复的申请，我们默认会做一定大小的缓存时间，从上一次申请之后的五分钟（时间可以在后台配置）内都会返回同一个位置信息，如果客户想要更短间隔的缓存时间请联系我们进行配置。返回值为true则表示成功启动一次扫描，为false则表示未注册回调或者上一次正在扫描中，或者服务处于未启动状态。
 
 ```java
-boolean isCanReqLocation = SWLocationClient.getInstance().requestLocationData();//已过期
-//or
-boolean isCanReqLocation = SWLocationClient.getInstance().sceneRecognizeUI();//推荐
+boolean isCanReqLocation = SWLocationClient.getInstance().sceneRecognizeUI();
 if (isCanReqLocation) {
    //如果能正常进行获取定位，则返回true，
 } else {
@@ -236,16 +289,14 @@ if (isCanReqLocation) {
 SWLocationClient.getInstance().unregisterLocationListener();
 ```
 
-## 3.8 扩展参数的使用
+## 3.10 扩展参数的使用
 
-有些应用场景或者业务下，集成方需要在请求定位的时候加上自己的标识或者数据，因此我们为此开放一个扩展参数的功能，正常情况下，用户可以通过固定API接口来标记一个请求，然后这个标记会原封不动的从定位结果中返回。具体示例参考代码如下：
+有些应用场景或者业务下，集成方需要在场景识别的时候加上自己的标识或者数据，因此我们开放了一个扩展参数的功能。扩展参数可以根据客户的要求来配置是否在对应的回调接口中返回。如果配置为返回，则会原样返回；如果配置为不返回，则不会返回该字段。具体示例参考代码如下：
 
 主动触发的扩展参数设置：
 
 ```java
-SWLocationClient.getInstance().requestLocationData("任意自定义字符串");//已过期
-//or
-SWLocationClient.getInstance().sceneRecognizeUI("任意自定义字符串");//推荐
+SWLocationClient.getInstance().sceneRecognizeUI("任意自定义字符串");
 //设置之后，当次的主动触发就会带有这个参数
 ```
 
@@ -262,7 +313,7 @@ SWLocationClient.getInstance().setExtendParameterCycle("任意自定义字符串
 //主动触发的定位成功回调
 @Override
 public void onLocationSuccess(int code, String msg, LocationData locationData) {
-  //上一次请求传入的获取扩展参数
+  //上一次请求传入的扩展参数
   String extendParameter = locationData.getExtendParameter();
   ...
 }
@@ -272,7 +323,7 @@ public void onLocationSuccess(int code, String msg, LocationData locationData) {
 //周期触发的定位成功回调
 @Override
 public void onCycleLocationSuccess(int retCode, String msg, LocationData locationData) {
-  //上一次请求传入的获取扩展参数
+  //上一次请求传入的扩展参数
   String extendParameter = locationData.getExtendParameter();
   ...
 }
@@ -282,9 +333,9 @@ public void onCycleLocationSuccess(int retCode, String msg, LocationData locatio
 
 **扩展参数请尽量勿传入过长的字符串，以减少无谓的的带宽流量消耗，目前暂时没有对此扩展参数长度进行限制，但是不保证后期前/后端不会进行的截取操作，如有任何问题，请务必和我们进行沟通协商。**
 
-## 3.9 透传字段的使用
+## 3.11 透传字段的使用
 
-透传字段和扩展字段的使用类似，不过透传字段是不需要通过后台配置是否返回的，如果在周期定位或主动定位前设置了透传字段，那么在周期定位或主动定位对应的定位结果中一定会原样返回。具体示例参考代码如下：
+透传字段和扩展字段的使用类似，不过透传字段是不需要通过后台配置是否返回的，而是一定会在对应的回调接口中原样返回的。主要用来区分不同触发请求的。具体示例参考代码如下：
 
 主动触发的透传参数设置：
 
@@ -306,7 +357,7 @@ SWLocationClient.getInstance().setPassThroughCycle("任意自定义字符串");
 //主动触发的定位成功回调
 @Override
 public void onLocationSuccess(int code, String msg, LocationData locationData) {
-  //上一次请求传入的获取透传参数
+  //上一次请求传入的透传参数
   String passThrough= locationData.getPassthrough();
   ...
 }
@@ -316,7 +367,7 @@ public void onLocationSuccess(int code, String msg, LocationData locationData) {
 //周期触发的定位成功回调
 @Override
 public void onCycleLocationSuccess(int retCode, String msg, LocationData locationData) {
-  //上一次请求传入的获取透传参数
+  //上一次请求传入的透传参数
   String passThrough= locationData.getPassthrough();
   ...
 }
@@ -328,11 +379,11 @@ public void onCycleLocationSuccess(int retCode, String msg, LocationData locatio
 
  
 
- **<span style='color:red'>以下章节 3.10, 3.11, 3.12是需要使用采集功能才需要使用到的接口和文档说明，如不需要采集功能，可跳过这三个小节的文档说明。</span>**
+ **<span style='color:red'>以下章节 3.12, 3.13, 3.14是需要使用采集功能才需要使用到的接口和文档说明，如不需要采集功能，可跳过这三个小节的文档说明。</span>**
 
  
 
-## 3.10 采集功能的使用
+## 3.12 采集功能的使用
 
 在需要使用采集功能的地方先注册采集回调接口，如果没有注册采集回调接口，是无法调用采集功能的，注册回调接口的代码是：
 
@@ -394,7 +445,7 @@ collectData.setCollectorId(collortorId);
 
 **特别注意：请根据商务合同中确定的需要采集的数据进行传递。省、市、区、街道、楼宇、楼层不得超过64个字符长度，商圈、name字段不得超过128个字符长度，自定义扩展字段必须是json格式的字符串且不得超过255个字符长度，自定义透传字段可以是任意字符串且不得超过255个字符长度，采集者id字段是任意字符串且不得超过255个字符长度。**
 
-## 3.11 采集查询功能的使用
+## 3.13 采集查询功能的使用
 
 在需要查询采集信息的地方先注册采集查询回调接口，如果没有注册采集查询回调接口，是无法调用采集查询功能的，注册回调接口的代码是：
 
@@ -430,9 +481,9 @@ if (isCanQuery ) {
 }
 ```
 
-其中设置透传字段和采集者id的信息，请参考**“3.10采集功能的使用”**中的说明。
+其中设置透传字段和采集者id的信息，请参考**“3.12采集功能的使用”**中的说明。
 
-## 3.12 采集删除功能的使用
+## 3.14 采集删除功能的使用
 
 在需要删除采集信息的地方先注册采集删除回调接口，如果没有注册采集删除回调接口，是无法调用采集删除功能的，注册回调接口的代码是：
 
@@ -468,9 +519,9 @@ if (isCanDelete ) {
 }
 ```
 
-其中设置透传字段和采集者id的信息，请参考**“3.10采集功能的使用”**中的说明。
+其中设置透传字段和采集者id的信息，请参考**“3.12采集功能的使用”**中的说明。
 
-## 3.13 SDK性能数据
+## 3.15 SDK性能数据
 
 影响SDK的电量的主要因素为定位周期和WiFi列表扫描，其中定位周期影响因素较大。下表中“满负荷工作”状态为“扫描周期5min、定位周期5min，设备位置持续变化”状态。
 
@@ -486,7 +537,7 @@ if (isCanDelete ) {
 | 触发时内存波动的峰值         | ≈4MB                                 |
 | 触发时内存波动的峰值持续时长 | ≈460ms                               |
 
-## 3.14 工作原理
+## 3.16 工作原理
 
 SDK通过上传用户采集的数据和手机获取到的当前位置的信号信息（主要是必传的WiFi信号，同时也包括基站、蓝
 
@@ -538,8 +589,8 @@ SDK的场景识别功能目前适用的范围为中国境内，在Google Play上
 
 # 6 定位结果(LocationData)的说明
 
-| 序号 | 字段             | 数据类型 | 说  明                                                       |
-| :--- | :--------------- | :------- | :----------------------------------------------------------- |
+| 序号 | 字段             | 数据类型 | 说明                                                         |
+| :--- | :--------------- | :------- | ------------------------------------------------------------ |
 | 1    | retCode          | Integer  | 业务码。  0：定位成功，包含结果;  >0：参见业务码说明。       |
 | 2    | msg              | String   | 业务码辅助提示信息。  有定位结果："OK";  无定位结果或其他：参见业务码说明。 |
 | 3    | requestSign      | String   | 请求签名                                                     |
@@ -665,9 +716,9 @@ SDK的场景识别功能目前适用的范围为中国境内，在Google Play上
 		"collectPoints": [{
 			"cpCode": "64rlglqelvncx38o",
 			"timestamp": 1565937973382,
-          "latitude": 22.549247,
-          "longitude": 113.943889,
-          "passThrough": "pt"
+            "latitude": 22.549247,
+            "longitude": 113.943889,
+            "passThrough": "pt"
 		}]
 	}
 }
@@ -732,9 +783,9 @@ SDK的场景识别功能目前适用的范围为中国境内，在Google Play上
 			"collectPoints": [{
 			    "cpCode": "64rlglqelvncx38o",
 			    "timestamp": 1565937973382,
-              "latitude": 22.549247,
-              "longitude": 113.943889,
-              "passThrough": "pt"
+                "latitude": 22.549247,
+                "longitude": 113.943889,
+                "passThrough": "pt"
 		}]
 		}]
 	}
@@ -784,9 +835,9 @@ SDK的场景识别功能目前适用的范围为中国境内，在Google Play上
 | 10002001 | Illegal oid.Fake oid                              | 疑似虚假设备号                    |
 | 10002002 | Illegal oid.Oid request frequency is too high     | 高频请求                          |
 | 201001   | No result                                         | 定位失败                          |
-| 203004   | AppId invalid                                     | appId无效                         |
-| 203005   | App is disabled                                   | app不可用                         |
-| 203006   | App type error                                    | app类型错误                       |
+| 203004   | AppId invalid                                     | AppId无效                         |
+| 203005   | App is disabled                                   | App不可用                         |
+| 203006   | App type error                                    | App类型错误                       |
 | 206001   | Lack of required POI fields                       | 缺少必须的poi字段                 |
 | 206002   | POI field too long                                | poi字段太长                       |
 | 206003   | Containing sensitive words                        | 包含敏感词                        |

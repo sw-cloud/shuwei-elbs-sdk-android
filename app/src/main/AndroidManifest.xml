@@ -37,6 +37,9 @@
             android:name=".LocationActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".CycleLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".QueryActivity"
             android:screenOrientation="portrait" />
 

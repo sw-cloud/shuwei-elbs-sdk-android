@@ -12,5 +12,5 @@
 #   public *;
 #}
 
-# 配置数位的 ELBS-SDK 的混淆规则
+# 配置数位场景识别SDK的混淆规则
 -keep class com.szshuwei.x.** { *; }

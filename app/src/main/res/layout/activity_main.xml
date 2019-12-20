@@ -2,8 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:text="使用说明：\n1. 最好在APP启动的时候初始化SDK\n2. 在需要使用SDK中的功能之前，启动服务\n3. 在不再需要使用SDK中的功能之后，可以停止服务\n4. 服务没有启动，SDK中的任何功能都无法使用" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/service_start" />
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/service_stop" />
 
     <Button
         android:id="@+id/btn_collect"
@@ -13,8 +41,7 @@
         android:layout_marginRight="12dp"
         android:includeFontPadding="false"
         android:padding="0dp"
-        android:text="@string/goto_collect"
-        />
+        android:text="@string/goto_collect" />
 
     <Button
         android:id="@+id/btn_location"
@@ -24,8 +51,17 @@
         android:layout_marginRight="12dp"
         android:includeFontPadding="false"
         android:padding="0dp"
-        android:text="@string/goto_location"
-        />
+        android:text="@string/goto_location" />
+
+    <Button
+        android:id="@+id/btn_cycle_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:includeFontPadding="false"
+        android:padding="0dp"
+        android:text="@string/goto_cycle_location" />
 
     <Button
         android:id="@+id/btn_collect_history"
@@ -35,7 +71,6 @@
         android:layout_marginRight="12dp"
         android:includeFontPadding="false"
         android:padding="0dp"
-        android:text="@string/goto_collect_history"
-        />
+        android:text="@string/goto_collect_history" />
 
 </LinearLayout>

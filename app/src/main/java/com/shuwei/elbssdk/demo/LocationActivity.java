@@ -11,13 +11,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.shuwei.elbssdk.demo.adapter.LocateHistoryAdapter;
-import com.szshuwei.x.collect.CycleLocationListener;
 import com.szshuwei.x.collect.LocationListener;
 import com.szshuwei.x.collect.SWLocationClient;
 import com.szshuwei.x.collect.entities.LocationData;
 
-public class LocationActivity extends AppCompatActivity implements CycleLocationListener,
-        View.OnClickListener, LocationListener {
+public class LocationActivity extends AppCompatActivity implements LocationListener,
+        View.OnClickListener {
 
     private Button mBtnPassive;
     private RecyclerView mLocateHistoryRv;
@@ -43,7 +42,7 @@ public class LocationActivity extends AppCompatActivity implements CycleLocation
 
         mBtnPassive.setOnClickListener(this);
 
-//        SWLocationClient.getInstance().registerCycleLocationListener(this);
+        // 注册主动定位回调监听
         SWLocationClient.getInstance().registerLocationListener(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -56,21 +55,6 @@ public class LocationActivity extends AppCompatActivity implements CycleLocation
                     Manifest.permission.READ_EXTERNAL_STORAGE
             }, 100);
         }
-    }
-
-    @Override
-    public void onCycleLocationSuccess(int retCode, String msg, LocationData locationData) {
-        if (null == locationData) {
-            Toast.makeText(this, "被动定位成功\n无精准位置信息", Toast.LENGTH_LONG).show();
-            return;
-        }
-        mAdapter.addData(0, locationData);
-    }
-
-    @Override
-    public void onCycleError(int code, String msg) {
-        Toast.makeText(this, "周期定位失败：code="
-                + code + ",msg=" + msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -95,10 +79,10 @@ public class LocationActivity extends AppCompatActivity implements CycleLocation
                 boolean isCanReqLocation = SWLocationClient.getInstance().sceneRecognizeUI();
                 if (isCanReqLocation) {
                     // 可以发起主动定位
-                    Toast.makeText(this, "可以发起主动定位", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "发起主动定位成功", Toast.LENGTH_SHORT).show();
                 } else {
                     // 不能发起主动定位
-                    Toast.makeText(this, "不能发起主动定位", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "发起主动定位失败", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

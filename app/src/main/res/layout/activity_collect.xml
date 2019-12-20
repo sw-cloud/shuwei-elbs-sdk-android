@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0"
-                    android:hint="彩讯科技大厦"
+                    android:hint="彩讯科创中心"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0"
-                    android:hint="彩讯科技大厦"
+                    android:hint="彩讯科创中心"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0"
-                    android:hint="深圳市南山区科苑南路彩讯科技大厦"
+                    android:hint="深圳市南山区科苑南路3176号彩讯科创中心"
                     android:textSize="13sp" />
             </LinearLayout>
 
