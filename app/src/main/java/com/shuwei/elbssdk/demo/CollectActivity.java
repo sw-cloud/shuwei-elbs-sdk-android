@@ -30,6 +30,7 @@ public class CollectActivity extends AppCompatActivity implements
     private EditText mProvinceEt;
     private EditText mExtParamEt;
     private EditText mPassThroughEt;
+    private EditText mPoiIdEt;
     private EditText mCollectorIdEt;
     private Button mSubmitCollectData;
 
@@ -55,6 +56,7 @@ public class CollectActivity extends AppCompatActivity implements
         mProvinceEt = (EditText) findViewById(R.id.province_name_et);
         mExtParamEt = (EditText) findViewById(R.id.ext_param_et);
         mPassThroughEt = (EditText) findViewById(R.id.pass_through_et);
+        mPoiIdEt = (EditText) findViewById(R.id.poi_id_et);
         mCollectorIdEt = (EditText) findViewById(R.id.collector_id_et);
         mSubmitCollectData = (Button) findViewById(R.id.submit_collect_data);
 
@@ -115,6 +117,7 @@ public class CollectActivity extends AppCompatActivity implements
                 String province = mProvinceEt.getText().toString().trim();
                 String collectExt = mExtParamEt.getText().toString().trim();
                 String passThrough = mPassThroughEt.getText().toString().trim();
+                String poiId = mPoiIdEt.getText().toString().trim();
                 String collectorId = mCollectorIdEt.getText().toString().trim();
                 CollectData collectData = new CollectData();
                 collectData.setName(poiName);
@@ -128,6 +131,7 @@ public class CollectActivity extends AppCompatActivity implements
                 collectData.setProvince(province);
                 collectData.setCollectExt(collectExt);
                 collectData.setPassThrough(passThrough);
+                collectData.setPoiId(poiId);
                 collectData.setCollectorId(collectorId);
                 boolean isCanSubmit = SWLocationClient.getInstance().submitCollectDataUI(collectData);
                 if (isCanSubmit) {

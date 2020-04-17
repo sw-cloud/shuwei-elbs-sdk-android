@@ -46,5 +46,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
     // 引入数位场景识别SDK的jar包
-    implementation files('libs/ShuweiELBS_Android_SDK_v4.1.0.jar')
+    implementation files('libs/ShuweiELBS_Android_SDK_v4.2.0.jar')
 }
